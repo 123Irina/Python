@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Римские и арабские числа</title>
+    <style media="screen" type="text/css">
+      .overline {text-decoration:overline}
+      div {margin: 5px;
+           padding: 5px}
+    </style>
+</head>
+<body>
+  <p>Введите число (римское или арабское)</p>
+  <input id="arab"></input>
+  <button id='arab-to-roman' onclick="toRomanOrArab()">Перевести</button>
+  <div id="result"></div>
+
+  <script type="text/javascript">
+
+  let arab = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000,
+  4000, 5000, 9000, 10000, 40000, 50000, 90000, 100000, 400000, 500000, 900000, 1000000];
+  let roman = ['I','IV','V','IX','X','XL','L','XC','C','CD','D','CM','M',
+  '<span class=\'overline\'>IV</span>',
+  '<span class=\'overline\'>V</span>',
+  '<span class=\'overline\'>IX</span>',
+  '<span class=\'overline\'>X</span>',
+  '<span class=\'overline\'>XL</span>',
+  '<span class=\'overline\'>L</span>',
+  '<span class=\'overline\'>XC</span>',
+  '<span class=\'overline\'>C</span>',
+  '<span class=\'overline\'>CD</span>',
+  '<span class=\'overline\'>D</span>',
+  '<span class=\'overline\'>CM</span>',
+  '<span class=\'overline\'>M</span>'];
+
+  function arabToRoman(number) {
+
+  if(!number) return '';
+
+  let ret = '';
+  let i = arab.length - 1;
+
+  while(number > 0) {
+    if(number >= arab[i]) {
+      ret += roman[i];
+      number -= arab[i];
+    }
+      else i--;
+  }
+    return ret;
+  }
+
+  function romanToArab(str) {
+    str = str.toUpperCase();
+    var ret = 0;
+    let i = arab.length - 1;
+    let pos = 0;
+
+    while(i >= 0 && pos < str.length ) {
+      if(str.substr(pos, roman[i].length) == roman[i]) {
+      ret += arab[i];
+      pos += roman[i].length;
+      }
+        else i--;
+      }
+
+    if  (arabToRoman(ret) != str) return 0
+      else return ret;
+    }
+
+  function toRomanOrArab () {
+    let res;
+    let num = document.getElementById("arab").value;
+
+    if (num*1 > 0) {
+      res = arabToRoman(num);
+    } else {res = romanToArab(num); }
+
+    if (res==0) {document.getElementById("result").innerHTML="некорректное число"}
+     else document.getElementById("result").innerHTML=res
+  }
+  </script>
+</body>
